@@ -27,18 +27,22 @@ module Shoulda
         end
 
         def failure_message_for_should
-          message = "Expected #{@controller} to rescue from #{@exception}"
-          message << " with #{@method} " if @method
-          message
+          "Expected #{expectation}"
         end
 
         def failure_message_for_should_not
-          message = "Did not expect #{@controller} to rescue from #{@exception}"
-          message << " with #{@method} " if @method
-          message
+          "Did not expect #{expectation}"
         end
 
         private
+        def expectation
+          expectation = "#{@controller} to rescue from #{@exception}"
+          expectation << " with ##{@method}" if @method && !method_name_matches?
+          unless handler_exists?
+            expectation << " but #{@controller} does not respond to #{@method}"
+          end
+        end
+
         def rescues_from_exception?
           @handlers = @controller.rescue_handlers.select do |handler|
             handler.first == @exception.to_s
