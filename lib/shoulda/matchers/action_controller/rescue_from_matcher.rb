@@ -6,7 +6,7 @@ module Shoulda
       end
 
       class RescueFromMatcher
-        def initialize exception
+        def initialize(exception)
           @exception = exception
         end
 
