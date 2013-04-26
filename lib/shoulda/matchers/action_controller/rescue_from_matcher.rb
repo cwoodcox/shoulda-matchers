@@ -41,6 +41,7 @@ module Shoulda
           unless handler_exists?
             expectation << " but #{@controller} does not respond to #{@method}"
           end
+          expectation
         end
 
         def rescues_from_exception?
