@@ -17,7 +17,7 @@ module Shoulda
 
         def matches?(controller)
           @controller = controller
-          rescues_from_exception? && method_name_matches?
+          rescues_from_exception? && method_name_matches? && handler_exists?
         end
 
         def description
@@ -51,6 +51,14 @@ module Shoulda
             @handlers.any? do |handler|
               handler.last == @method
             end
+          else
+            true
+          end
+        end
+
+        def handler_exists?
+          if @method
+            @controller.respond_to? @method
           else
             true
           end
