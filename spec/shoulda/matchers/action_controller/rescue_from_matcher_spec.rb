@@ -26,7 +26,7 @@ describe Shoulda::Matchers::ActionController::RescueFromMatcher do
   context 'a controller that does not rescue from RuntimeError' do
     it "asserts controller is not setup with rescue_from" do
       matcher = rescue_from RuntimeError
-      define_controller("RandomController") {}.should_not matcher
+      define_controller("RandomController").should_not matcher
       matcher.failure_message_for_should_not.should =~ /Did not expect \w+ to rescue from/
     end
   end

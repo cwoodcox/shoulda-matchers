@@ -35,6 +35,7 @@ module Shoulda
         end
 
         private
+
         def expectation
           expectation = "#{@controller} to rescue from #{@exception}"
           expectation << " with ##{@method}" if @method && !method_name_matches?
