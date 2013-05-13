@@ -6,8 +6,6 @@ module Shoulda
       end
 
       class RescueFromMatcher
-        attr_reader :controller, :exception, :expected_method, :handlers
-
         def initialize(exception)
           @exception = exception
         end
@@ -37,6 +35,7 @@ module Shoulda
         end
 
         private
+        attr_reader :controller, :exception, :expected_method, :handlers
 
         def expectation
           expectation = "#{controller} to rescue from #{exception}"
