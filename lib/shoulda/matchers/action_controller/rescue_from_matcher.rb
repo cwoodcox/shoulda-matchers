@@ -6,12 +6,14 @@ module Shoulda
       end
 
       class RescueFromMatcher
+        attr_reader :controller, :exception, :expected_method, :handlers
+
         def initialize(exception)
           @exception = exception
         end
 
         def with(method)
-          @method = method
+          @expected_method = method
           self
         end
 
@@ -21,8 +23,8 @@ module Shoulda
         end
 
         def description
-          description = "rescues from #{@exception}"
-          description << " with ##{@method}"
+          description = "rescues from #{exception}"
+          description << " with ##{expected_method}"
           description
         end
 
@@ -37,25 +39,25 @@ module Shoulda
         private
 
         def expectation
-          expectation = "#{@controller} to rescue from #{@exception}"
-          expectation << " with ##{@method}" if @method && !method_name_matches?
+          expectation = "#{controller} to rescue from #{exception}"
+          expectation << " with ##{expected_method}" if expected_method && !method_name_matches?
           unless handler_exists?
-            expectation << " but #{@controller} does not respond to #{@method}"
+            expectation << " but #{controller} does not respond to #{expected_method}"
           end
           expectation
         end
 
         def rescues_from_exception?
-          @handlers = @controller.rescue_handlers.select do |handler|
-            handler.first == @exception.to_s
+          @handlers = controller.rescue_handlers.select do |handler|
+            handler.first == exception.to_s
           end
-          @handlers.any?
+          handlers.any?
         end
 
         def method_name_matches?
-          if @method
-            @handlers.any? do |handler|
-              handler.last == @method
+          if expected_method
+            handlers.any? do |handler|
+              handler.last == expected_method
             end
           else
             true
@@ -63,8 +65,8 @@ module Shoulda
         end
 
         def handler_exists?
-          if @method
-            @controller.respond_to? @method
+          if expected_method
+            controller.respond_to? expected_method
           else
             true
           end
