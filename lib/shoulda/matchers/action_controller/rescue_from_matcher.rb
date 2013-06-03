@@ -39,7 +39,9 @@ module Shoulda
 
         def expectation
           expectation = "#{controller} to rescue from #{exception}"
-          expectation << " with ##{expected_method}" if expected_method && !method_name_matches?
+          if expected_method && !method_name_matches?
+            expectation << " with ##{expected_method}"
+          end
           unless handler_exists?
             expectation << " but #{controller} does not respond to #{expected_method}"
           end
