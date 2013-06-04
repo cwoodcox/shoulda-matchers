@@ -56,15 +56,21 @@ module Shoulda
         end
 
         def method_name_matches?
-          return true unless expected_method
-          handlers.any? do |handler|
-            handler.last == expected_method
+          if expected_method.present?
+            handlers.any? do |handler|
+              handler.last == expected_method
+            end
+          else
+            true
           end
         end
 
         def handler_exists?
-          return true unless expected_method
-          controller.respond_to? expected_method
+          if expected_method.present?
+            controller.respond_to? expected_method
+          else
+            true
+          end
         end
       end
     end
