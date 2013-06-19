@@ -21,6 +21,14 @@ describe Shoulda::Matchers::ActionController::RescueFromMatcher do
         matcher.failure_message_for_should.should =~ /does not respond to/
       end
     end
+
+    context 'without a handler method' do
+      it "the handler method is not included in the description" do
+        matcher = rescue_from(RuntimeError)
+        matcher.matches?(controller_with_rescue_from).should be_true
+        matcher.description.should_not =~ /with #/
+      end
+    end
   end
 
   context 'a controller that does not rescue from RuntimeError' do
