@@ -38,26 +38,26 @@ describe Shoulda::Matchers::ActionController::RescueFromMatcher do
       matcher.failure_message_for_should_not.should =~ /Did not expect \w+ to rescue from/
     end
   end
-end
 
-def controller_with_rescue_from
-  define_controller "RescueRuntimeError" do
-    rescue_from(RuntimeError) {}
-  end
-end
-
-def controller_with_rescue_from_and_invalid_method
-  define_controller "RescueRuntimeErrorWithMethod" do
-    rescue_from RuntimeError, with: :error_method
-  end
-end
-
-def controller_with_rescue_from_and_method
-  controller = controller_with_rescue_from_and_invalid_method
-  class << controller
-    def error_method
-      true
+  def controller_with_rescue_from
+    define_controller "RescueRuntimeError" do
+      rescue_from(RuntimeError) {}
     end
   end
-  controller
+
+  def controller_with_rescue_from_and_invalid_method
+    define_controller "RescueRuntimeErrorWithMethod" do
+      rescue_from RuntimeError, with: :error_method
+    end
+  end
+
+  def controller_with_rescue_from_and_method
+    controller = controller_with_rescue_from_and_invalid_method
+    class << controller
+      def error_method
+        true
+      end
+    end
+    controller
+  end
 end
