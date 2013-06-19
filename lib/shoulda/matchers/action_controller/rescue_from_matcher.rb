@@ -22,7 +22,7 @@ module Shoulda
 
         def description
           description = "rescues from #{exception}"
-          description << " with ##{expected_method}"
+          description << " with ##{expected_method}" if expected_method
           description
         end
 
