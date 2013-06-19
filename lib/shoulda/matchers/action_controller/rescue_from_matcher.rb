@@ -35,6 +35,7 @@ module Shoulda
         end
 
         private
+
         attr_reader :controller, :exception, :expected_method, :handlers
 
         def expectation
